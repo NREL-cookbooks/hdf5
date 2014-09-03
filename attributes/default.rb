@@ -1,5 +1,5 @@
-default["hdf5"]["version"] = "1.8.12"
+default["hdf5"]["version"] = "1.8.13"
 default["hdf5"]["download_url"] = "http://www.hdfgroup.org/ftp/HDF5/releases/hdf5-#{node["hdf5"]["version"]}/src/hdf5-#{node["hdf5"]["version"]}.tar.bz2"
 default["hdf5"]["download_dir"] = "/tmp"
-default["hdf5"]["checksum"] = "6d080f913a226a3ce390a11d9b571b2d5866581a2aa4434c398cd371c7063639"
+default["hdf5"]["checksum"] = "c2f5a412107aba6f99fd7a4a9db6ce5f5fc8171ec931472784e5839d26aa17ef"
 default["hdf5"]["prefix"] = "/usr/local"
