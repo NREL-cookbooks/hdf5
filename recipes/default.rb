@@ -17,19 +17,13 @@
 # limitations under the License.
 #
 
+include_recipe "build-essential"
+
 hdf5_version = node["hdf5"]["version"]
 hdf5_download_url = node["hdf5"]["download_url"]
 hdf5_download_dir = node["hdf5"]["download_dir"]
 hdf5_checksum = node["hdf5"]["checksum"]
 hdf5_prefix = node["hdf5"]["prefix"]
-
-packages = %w[gcc gcc-c++ make]
-
-packages.each do |package|
-  package "#{package}" do
-    action :install
-  end
-end
 
 remote_file "#{hdf5_download_dir}/hdf5-#{hdf5_version}.tar.bz2" do
   source "#{hdf5_download_url}"
@@ -43,13 +37,19 @@ execute "untar hdf5 tarball" do
   creates "#{hdf5_download_dir}/hdf5-#{hdf5_version}"
 end
 
-script "install hdf5" do
-  interpreter "bash"
-  cwd "/tmp/hdf5-#{hdf5_version}"
+bash "install hdf5" do
+  cwd "#{hdf5_download_dir}/hdf5-#{hdf5_version}"
   code <<-EOH
   ./configure --prefix=#{hdf5_prefix}
   make
   make install
   EOH
   creates "#{hdf5_prefix}/bin/h5cc"
+end
+
+template "/etc/profile.d/hdf5.sh" do
+  source "profile.sh.erb"
+  owner "root"
+  group "root"
+  mode "0644"
 end
